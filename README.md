@@ -66,10 +66,10 @@ graph TB
 
     F -.->|Load Model| J
 
-    style A fill:#e1f5ff
-    style G fill:#e1f5ff
-    style M fill:#ffcccc
-    style F fill:#d4edda
+    style A fill:#e1f5ff,color:#000
+    style G fill:#e1f5ff,color:#000
+    style M fill:#ffcccc,color:#000
+    style F fill:#d4edda,color:#000
 ```
 
 ## Data Pipeline & Quality Assurance
