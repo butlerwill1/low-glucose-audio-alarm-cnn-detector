@@ -36,6 +36,42 @@ Audio Stream → Windowing (1.5s) → Mel Spectrogram → CNN Classifier → Tem
 4. **Temporal Aggregation**: Voting across 5 consecutive windows (reduces false positives)
 5. **Alert System**: Configurable threshold-based triggering with cooldown period
 
+### Example: CGM Alarm Audio Pattern
+
+![CGM Alarm Spectrogram](results/pure_glose_alarm_first%20recording.png)
+
+*Mel spectrogram of a glucose monitor alarm showing the distinctive frequency pattern around 3000 Hz that the CNN learns to recognize.*
+
+### System Workflow
+
+```mermaid
+graph TB
+    subgraph Training["Training Pipeline"]
+        A[Record Sessions<br/>60s audio files] --> B[Window Slicing<br/>1.5s windows, 0.25s hop]
+        B --> C[Label Verification<br/>Interactive tool]
+        C --> D[Mel Spectrogram<br/>64 bands, 1024 FFT]
+        D --> E[CNN Training<br/>3 conv layers]
+        E --> F[Model + Metadata<br/>.pth + .json]
+    end
+
+    subgraph Inference["Live Inference Pipeline"]
+        G[Microphone Input<br/>16kHz mono] --> H[Sliding Window<br/>1.5s buffer]
+        H --> I[Mel Spectrogram<br/>Same params as training]
+        I --> J[CNN Prediction<br/>Load trained model]
+        J --> K[Temporal Voting<br/>3/5 windows]
+        K --> L{Alarm<br/>Detected?}
+        L -->|Yes| M[Trigger Alert<br/>Sound/Vibration/Smart Home]
+        L -->|No| H
+    end
+
+    F -.->|Load Model| J
+
+    style A fill:#e1f5ff
+    style G fill:#e1f5ff
+    style M fill:#ffcccc
+    style F fill:#d4edda
+```
+
 ## Data Pipeline & Quality Assurance
 
 ### Automated Data Collection
