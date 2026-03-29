@@ -42,11 +42,7 @@ ENV/
 # recordings/*.wav
 
 # Results and outputs
-*.png
-*.jpg
-*.jpeg
-results/*.png
-results/*.jpg
+
 
 # IDE
 .vscode/
